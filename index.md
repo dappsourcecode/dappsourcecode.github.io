@@ -289,7 +289,7 @@ async function estgaslimit() {
 ```
 
 <br />
-
+<h2 id="sendnativeasset">Send Native Asset</h2>
 <button onclick="sendeth()">Send Native Asset</button>
 <br />
 Recipient: <input type="text" id="recipient1" name="recipient1" value="0x6F937dC8f92E6b43f0853960b778BAF2D93022C1"/>
@@ -374,6 +374,150 @@ async function sendeth() {
           value: amount,
           gasPrice: await ethereum.request({method: 'eth_gasPrice', params: []}),
           gas: '' //auto,
+        },
+      ];
+  
+  ethereum
+    .request({
+      method: 'eth_sendTransaction',
+      params,
+    })
+    .then((txHash) => console.log(txHash))
+    .catch((error) => console.error);
+}
+</script>
+```
+
+<br />
+<h2 id="sendmessagetoanevmaddress">Send Message to an EVM Address</h2>
+<button onclick="sendmsg()">Send Message</button>
+<br />
+Recipient: <input type="text" id="recipientmsg" name="recipientmsg" value="0x6F937dC8f92E6b43f0853960b778BAF2D93022C1"/>
+<br />
+<textarea id="message" rows="4" cols="50" name="message" value="Enter Message">Enter Message</textarea>
+<br />
+Amount: <input type="number" id="amountmsg" name="amountmsg" value="0"/>
+<br />
+
+<script>
+document.getElementById("recipientmsg").addEventListener("change", changerecipientmsginput);
+
+let recipient = document.getElementById("recipientmsg").value;
+
+function changerecipientmsginput() {
+	recipient = document.getElementById("recipientmsg").value;
+}
+
+function ascii_to_hex(str) {
+    var arr1 = [];
+    for (var n = 0, l = str.length; n < l; n ++) 
+        {
+        var hex = Number(str.charCodeAt(n)).toString(16);
+        arr1.push(hex);
+        }
+    return arr1.join('');
+}
+
+document.getElementById("message").addEventListener("change", changemessageinput);
+
+let message = "0x" + ascii_to_hex(document.getElementById("message").value);
+
+function changemessageinput() {
+	message = "0x" + ascii_to_hex(document.getElementById("message").value);
+    console.log(message);
+}
+
+document.getElementById("amountmsg").addEventListener("change", changeamountmsginput);
+
+let amount = "0x" + (parseFloat(document.getElementById("amountmsg").value)*10 ** 18).toString(16);
+
+function changeamountmsginput() {
+	amount = "0x" + (parseFloat(document.getElementById("amountmsg").value)*10 ** 18).toString(16);
+}
+
+//Sending Ethereum to an address
+async function sendmsg() {
+  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  
+  params = [
+        {
+          from: accounts[0],
+          to: recipient,
+          value: amount,
+          gasPrice: await ethereum.request({method: 'eth_gasPrice', params: []}),
+          gas: '', //auto
+          data: message
+        },
+      ];
+  
+  ethereum
+    .request({
+      method: 'eth_sendTransaction',
+      params,
+    })
+    .then((txHash) => console.log(txHash))
+    .catch((error) => console.error);
+}
+</script>
+
+```html
+<button onclick="sendmsg()">Send Message</button>
+<br />
+Recipient: <input type="text" id="recipient" name="recipient" value="0x6F937dC8f92E6b43f0853960b778BAF2D93022C1"/>
+<br />
+<textarea id="message" rows="4" cols="50" name="message" value="Enter Message">Enter Message</textarea>
+<br />
+Amount: <input type="number" id="amount" name="amount" value="0"/>
+<br />
+
+<script>
+document.getElementById("recipient").addEventListener("change", changerecipientinput);
+
+let recipient = document.getElementById("recipient").value;
+
+function changerecipientinput() {
+	recipient = document.getElementById("recipient").value;
+}
+
+function ascii_to_hex(str) {
+    var arr1 = [];
+    for (var n = 0, l = str.length; n < l; n ++) 
+        {
+        var hex = Number(str.charCodeAt(n)).toString(16);
+        arr1.push(hex);
+        }
+    return arr1.join('');
+}
+
+document.getElementById("message").addEventListener("change", changemessageinput);
+
+let message = "0x" + ascii_to_hex(document.getElementById("message").value);
+
+function changemessageinput() {
+	message = "0x" + ascii_to_hex(document.getElementById("message").value);
+    console.log(message);
+}
+
+document.getElementById("amount").addEventListener("change", changeamountinput);
+
+let amount = "0x" + (parseFloat(document.getElementById("amount").value)*10 ** 18).toString(16);
+
+function changeamountinput() {
+	amount = "0x" + (parseFloat(document.getElementById("amount").value)*10 ** 18).toString(16);
+}
+
+//Sending Ethereum to an address
+async function sendmsg() {
+  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  
+  params = [
+        {
+          from: accounts[0],
+          to: recipient,
+          value: amount,
+          gasPrice: await ethereum.request({method: 'eth_gasPrice', params: []}),
+          gas: '', //auto
+          data: message
         },
       ];
   

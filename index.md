@@ -72,6 +72,58 @@ async function connect() {
 ethereum.on('accountsChanged', function (accounts) {
   connect();
 });
+</script>
+```
+
+<br />
+
+<h2 id="signpersonalmessage">Sign Personal Message</h2>
+<button onclick="connect_personal_sign()" id="connect-personal-sign">Connect</button>
+<p>Account: <span id="showAccount-personal-sign"></span></p>
+<p>Personal Signature: <span id="personal-sign"></span></p>
+
+<script>
+async function connect_personal_sign() {
+  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  const account = accounts[0];
+  const message = "Hello from signer!";
+  const signature = await ethereum.request({ method: 'personal_sign', params: [ message, account ] });
+  
+  if(ethereum.isConnected()){
+    document.getElementById("showAccount-personal-sign").innerHTML = account;
+    document.getElementById("connect-personal-sign").innerHTML = "connected";
+    document.getElementById("personal-sign").innerHTML = signature;
+  }
+}
+
+ethereum.on('accountsChanged', function (accounts) {
+  connect_personal_sign();
+});
+</script>
+
+```html
+<button onclick="connect()" id="connect">Connect</button>
+<p>Account: <span id="showAccount"></span></p>
+<p>Personal Signature: <span id="personal-sign"></span></p>
+
+<script>
+async function connect() {
+  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  const account = accounts[0];
+  const message = "Hello from signer!";
+  const signature = await ethereum.request({ method: 'personal_sign', params: [ message, account ] });
+  
+  if(ethereum.isConnected()){
+    document.getElementById("showAccount").innerHTML = account;
+    document.getElementById("connect").innerHTML = "connected";
+    document.getElementById("personal-sign").innerHTML = signature;
+  }
+}
+
+ethereum.on('accountsChanged', function (accounts) {
+  connect();
+});
+</script>
 ```
 
 <br />
@@ -177,10 +229,10 @@ async function estgaslimit() {
 
   document.getElementById("amount").addEventListener("change", changeamountinput);
 
-  let amount = "0x" + (parseInt(document.getElementById("amount").value)*10 ** 18).toString(16);
+  let amount = "0x" + (parseFloat(document.getElementById("amount").value)*10 ** 18).toString(16);
   
   function changeamountinput() {
-	amount = "0x" + (parseInt(document.getElementById("amount").value)*10 ** 18).toString(16);
+	amount = "0x" + (parseFloat(document.getElementById("amount").value)*10 ** 18).toString(16);
 }
   
   let params = [{"from": account, "to": recipient, "value": amount}]
@@ -217,10 +269,10 @@ async function estgaslimit() {
 
   document.getElementById("amount").addEventListener("change", changeamountinput);
 
-  let amount = "0x" + (parseInt(document.getElementById("amount").value)*10 ** 18).toString(16);
+  let amount = "0x" + (parseFloat(document.getElementById("amount").value)*10 ** 18).toString(16);
   
   function changeamountinput() {
-	amount = "0x" + (parseInt(document.getElementById("amount").value)*10 ** 18).toString(16);
+	amount = "0x" + (parseFloat(document.getElementById("amount").value)*10 ** 18).toString(16);
 }
   
   let params = [{"from": account, "to": recipient, "value": amount}]
@@ -256,10 +308,10 @@ function changerecipient1input() {
 
 document.getElementById("amount1").addEventListener("change", changeamount1input);
 
-let amount1 = "0x" + (parseInt(document.getElementById("amount1").value)*10 ** 18).toString(16);
+let amount1 = "0x" + (parseFloat(document.getElementById("amount1").value)*10 ** 18).toString(16);
 
 function changeamount1input() {
-	amount1 = "0x" + (parseInt(document.getElementById("amount1").value)*10 ** 18).toString(16);
+	amount1 = "0x" + (parseFloat(document.getElementById("amount1").value)*10 ** 18).toString(16);
 }
 
 //Sending Ethereum to an address
@@ -305,10 +357,10 @@ function changerecipientinput() {
 
 document.getElementById("amount").addEventListener("change", changeamountinput);
 
-let amount = "0x" + (parseInt(document.getElementById("amount").value)*10 ** 18).toString(16);
+let amount = "0x" + (parseFloat(document.getElementById("amount").value)*10 ** 18).toString(16);
 
 function changeamountinput() {
-	amount = "0x" + (parseInt(document.getElementById("amount").value)*10 ** 18).toString(16);
+	amount = "0x" + (parseFloat(document.getElementById("amount").value)*10 ** 18).toString(16);
 }
 
 //Sending Ethereum to an address
